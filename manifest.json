@@ -3,8 +3,8 @@
   "name": "YouTube Shorts Limiter",
   "version": "1.0.0",
   "description": "Control your YouTube Shorts consumption with customizable daily limits and full-screen reminders",
-  "author": "Your Name",
-  "homepage_url": "https://github.com/yourusername/shorts-limiter",
+  "author": "Frederic Rohrer",
+  "homepage_url": "https://github.com/Frohrer/ytshorter",
   "permissions": [
     "notifications",
     "storage",
