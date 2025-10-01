@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+  "name": "YouTube Shorts Limiter",
+  "version": "1.0.0",
+  "description": "Control your YouTube Shorts consumption with customizable daily limits and full-screen reminders",
+  "author": "Your Name",
+  "homepage_url": "https://github.com/yourusername/shorts-limiter",
+  "permissions": [
+    "notifications",
+    "storage",
+    "tabs",
+    "*://*.youtube.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "48": "icon48.png",
+    "96": "icon96.png",
+    "128": "icon128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "48": "icon48.png",
+      "96": "icon96.png"
+    },
+    "default_title": "YouTube Shorts Limiter",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}
+

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Icons for Firefox Store</title>
+  <style>
+    body {
+      font-family: system-ui;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    h1 { color: #667eea; }
+    .instructions {
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin: 10px;
+      cursor: pointer;
+    }
+    canvas:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .download-section {
+      background: #e3f2fd;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎬 Icon Generator for Firefox Store</h1>
+  
+  <div class="instructions">
+    <h3>Instructions:</h3>
+    <ol>
+      <li>Click the "Download" button below each icon size</li>
+      <li>Or right-click on each canvas and select "Save Image As..."</li>
+      <li>Save with the exact filenames shown below</li>
+      <li>Icons will be automatically saved to your Downloads folder</li>
+    </ol>
+  </div>
+  
+  <div class="download-section">
+    <h3>48x48 Icon (icon48.png)</h3>
+    <canvas id="icon48" width="48" height="48"></canvas>
+    <br>
+    <button onclick="downloadIcon('icon48', 'icon48.png')">Download icon48.png</button>
+  </div>
+  
+  <div class="download-section">
+    <h3>96x96 Icon (icon96.png)</h3>
+    <canvas id="icon96" width="96" height="96"></canvas>
+    <br>
+    <button onclick="downloadIcon('icon96', 'icon96.png')">Download icon96.png</button>
+  </div>
+  
+  <div class="download-section">
+    <h3>128x128 Icon (icon128.png - for Firefox Store)</h3>
+    <canvas id="icon128" width="128" height="128"></canvas>
+    <br>
+    <button onclick="downloadIcon('icon128', 'icon128.png')">Download icon128.png</button>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // Gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#667eea');
+      gradient.addColorStop(1, '#764ba2');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw circle
+      ctx.strokeStyle = 'white';
+      ctx.fillStyle = 'white';
+      ctx.lineWidth = size / 20;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size * 0.35, 0, 2 * Math.PI);
+      ctx.stroke();
+      
+      // Draw "10" text
+      ctx.font = `bold ${size * 0.35}px Arial, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('10', size / 2, size / 2);
+    }
+    
+    function downloadIcon(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert(`✓ ${filename} downloaded successfully!`);
+      }, 'image/png');
+    }
+    
+    // Generate all icons on load
+    drawIcon(document.getElementById('icon48'), 48);
+    drawIcon(document.getElementById('icon96'), 96);
+    drawIcon(document.getElementById('icon128'), 128);
+    
+    console.log('Icons generated! Click download buttons or right-click to save.');
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+</head>
+<body>
+  <h2>Icon Generator for YouTube Shorts Limiter</h2>
+  <p>Open this file in a browser, then right-click each canvas and save as PNG.</p>
+  
+  <div>
+    <h3>icon48.png (48x48)</h3>
+    <canvas id="icon48" width="48" height="48"></canvas>
+  </div>
+  
+  <div>
+    <h3>icon96.png (96x96)</h3>
+    <canvas id="icon96" width="96" height="96"></canvas>
+  </div>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      
+      // Gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#667eea');
+      gradient.addColorStop(1, '#764ba2');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw "10" with a stop sign circle
+      ctx.strokeStyle = 'white';
+      ctx.fillStyle = 'white';
+      ctx.lineWidth = size / 20;
+      
+      // Draw circle
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size * 0.35, 0, 2 * Math.PI);
+      ctx.stroke();
+      
+      // Draw "10" text
+      ctx.font = `bold ${size * 0.35}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('10', size / 2, size / 2);
+    }
+    
+    drawIcon(document.getElementById('icon48'), 48);
+    drawIcon(document.getElementById('icon96'), 96);
+  </script>
+  
+  <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;">
+    <h4>Instructions:</h4>
+    <ol>
+      <li>Right-click on the first canvas above</li>
+      <li>Select "Save Image As..." or similar option</li>
+      <li>Save as <code>icon48.png</code> in the extension directory</li>
+      <li>Repeat for the second canvas, saving as <code>icon96.png</code></li>
+    </ol>
+    <p><strong>Alternative:</strong> You can also use any image editor to create custom 48x48 and 96x96 PNG icons.</p>
+  </div>
+</body>
+</html>
+

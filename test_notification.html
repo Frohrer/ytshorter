@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Notification Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #667eea;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+    .success { color: green; }
+    .error { color: red; }
+    .info { color: blue; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Firefox Notification Test</h1>
+    <p>This page tests if browser notifications work on your system.</p>
+    
+    <button onclick="testWebNotification()">Test Web Notification API</button>
+    <button onclick="checkPermission()">Check Notification Permission</button>
+    
+    <div class="result" id="result">
+      <div>Click a button to test...</div>
+    </div>
+  </div>
+
+  <script>
+    function log(message, type = 'info') {
+      const result = document.getElementById('result');
+      const time = new Date().toLocaleTimeString();
+      const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+      result.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+    }
+
+    function checkPermission() {
+      log('Checking notification permission...', 'info');
+      log('Notification.permission = ' + Notification.permission, 'info');
+      
+      if (Notification.permission === 'granted') {
+        log('✓ Permission is granted!', 'success');
+      } else if (Notification.permission === 'denied') {
+        log('✗ Permission is DENIED! Check your browser settings.', 'error');
+      } else {
+        log('⚠ Permission is default (not asked yet)', 'info');
+      }
+    }
+
+    async function testWebNotification() {
+      log('Testing Web Notification API...', 'info');
+      
+      if (!('Notification' in window)) {
+        log('✗ This browser does not support notifications', 'error');
+        return;
+      }
+
+      log('Notification API is available', 'success');
+      log('Current permission: ' + Notification.permission, 'info');
+
+      if (Notification.permission === 'granted') {
+        showNotification();
+      } else if (Notification.permission !== 'denied') {
+        log('Requesting notification permission...', 'info');
+        const permission = await Notification.requestPermission();
+        log('Permission result: ' + permission, permission === 'granted' ? 'success' : 'error');
+        
+        if (permission === 'granted') {
+          showNotification();
+        }
+      } else {
+        log('✗ Notifications are BLOCKED. Please enable them in browser settings:', 'error');
+        log('Firefox → Preferences → Privacy & Security → Permissions → Notifications', 'info');
+      }
+    }
+
+    function showNotification() {
+      log('Creating notification...', 'info');
+      try {
+        const notification = new Notification('Test Notification', {
+          body: 'If you see this, notifications are working! ✓',
+          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23667eea"/></svg>',
+          requireInteraction: false
+        });
+        
+        notification.onclick = function() {
+          log('Notification was clicked!', 'success');
+        };
+        
+        log('✓ Notification created successfully!', 'success');
+        log('Check your system notification center if you didn\'t see it', 'info');
+        
+      } catch (error) {
+        log('✗ Error creating notification: ' + error.message, 'error');
+      }
+    }
+
+    // Auto-check permission on load
+    window.addEventListener('load', checkPermission);
+  </script>
+</body>
+</html>
+

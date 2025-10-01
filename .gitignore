@@ -1,0 +1,18 @@
+# Build artifacts
+*.zip
+web-ext-artifacts/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if you add build tools later)
+node_modules/
+
